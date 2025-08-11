@@ -1,61 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula 05/08</title>
+    <title>Document</title>
 </head>
 <body>
-    <?php
-        $a = 20;
-        $b = 30;
-        $c = 5;
+<?php
+   
+   //1 -  Crie um arquivo .php conforme especificado em aula, nele defina 3 variáveis, $a, $b, $c e atribua o numero (valor) que desejar a cada uma delas manualmente
 
-        // 1a - Mostra qual variável tem o maior valor
-        $maior_valor = max($a, $b, $c);
-        echo "Maior valor: $maior_valor<br>";
-        
-        // 1b - Ordenar os valores do menor para o maior
-        $valores = array($a, $b, $c);
-        sort($valores);
-        echo "Valores ordenados: " . implode(", ", $valores) . "<br>";
-        
-        // 1c - Verificar se o valor de $a é primo
+   $a = 10;
+   $b = 15;
+   $c = 38;
 
-        function primo($num) {
-            if ($num <= 1) return false;
-            for ($i = 2; $i <= sqrt($num); $i++) {
-                if ($num % $i == 0) return false;
-            }
-            return true;
-        }
-        
-        if (primo($a)) {
-            echo "O valor de \$a ($a) é primo.<br>";
-        } else {
-            echo "O valor de \$a ($a) não é primo.<br>";
-        }
+   $aux;
+   $fatorial = 1;
+  
+   //1a) Mostre qual destas variáveis possui o maior valor
+  
+   if($a > $b)
+   {
+       if($a > $c)
+       {
+           echo "a e maior\n";
+       }
+   }
+   else if($b > $c)
+   {
+       echo"b e maior\n";
+   }
+   else
+   {
+       echo "c e maior\n";
+   }
+ 
+   
+    //1b) Ordene os valores do menor para o maior 
+   
+    if($a > $b)
+    {
+        $aux = $a;
+        $a = $b;
+        $b = $aux;
+    }
+    else if($a > $c)
+    {
+        $aux = $a;
+        $a = $c;
+        $c = $aux;
+    }
+    else if($b > $c)
+    {
+        $aux = $b;
+        $b = $c;
+        $c = $aux;
+    }
+   
+    echo "$a, $b, $c\n";
 
-        if (primo($b)) {
-            echo "O valor de \$b ($b) é primo.<br>";
-        } else {
-            echo "O valor de \$b ($b) não é primo.<br>";
-        }
+    //1c) Diga se o valor atribuído para a variável $a é primo
+    
+   
+    //1d) Mostre o fatorial da variável $c
+   
+    for($i = $c; $i > 1; $i--)
+    {
+        $fatorial *= $i;
+    }
+   
+    echo "$fatorial";
 
-        if (primo($c)) {
-            echo "O valor de \$c ($c) é primo.<br>";
-        } else {
-            echo "O valor de \$c ($c) não é primo.<br>";
-        }
-        
-        // 1d - Calcular o fatorial de $c
-        function fatorial($n) {
-            if ($n == 0 || $n == 1) return 1;
-            return $n * fatorial($n - 1);
-        }
-        
-        $fatorial_c = fatorial($c);
-        echo "O fatorial de \$c ($c) é: $fatorial_c<br>";
-    ?>
+?>
 </body>
 </html>
