@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Atividade 05/08/2025</title>
 </head>
 <body>
 <?php
    
    //1 -  Crie um arquivo .php conforme especificado em aula, nele defina 3 variáveis, $a, $b, $c e atribua o numero (valor) que desejar a cada uma delas manualmente
 
-   $a = 10;
+   $a = 11;
    $b = 15;
    $c = 38;
 
    $aux;
+   $primo;
    $fatorial = 1;
   
    //1a) Mostre qual destas variáveis possui o maior valor
@@ -23,16 +24,16 @@
    {
        if($a > $c)
        {
-           echo "a e maior\n";
+           echo "a é maior<br><br>";
        }
    }
    else if($b > $c)
    {
-       echo"b e maior\n";
+       echo"b é maior<br><br>";
    }
    else
    {
-       echo "c e maior\n";
+       echo "c é maior<br><br>";
    }
  
    
@@ -57,10 +58,30 @@
         $c = $aux;
     }
    
-    echo "$a, $b, $c\n";
+    echo "Ordem crescente: $a, $b, $c<br><br>";
 
     //1c) Diga se o valor atribuído para a variável $a é primo
+
+    if ($a == 1) {
+        $primo = false;
+    } else {
+        $primo = true;
+        for ($i = 2; $i <= sqrt($a); $i++) {
+            if ($a % $i == 0) {
+                $primo = false;
+                break;
+            }
+        }
+    }
     
+    if($primo == false)
+    {
+        echo "O valor $a, da variável a, não é primo<br><br>";
+    }
+    else
+    {
+        echo "O valor $a, da variável a, é primo<br><br>";
+    }
    
     //1d) Mostre o fatorial da variável $c
    
@@ -69,7 +90,7 @@
         $fatorial *= $i;
     }
    
-    echo "$fatorial";
+    echo "O fatorial de $c é $fatorial";
 
 ?>
 </body>
