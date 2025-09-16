@@ -5,78 +5,90 @@ $respostas_certas = [
       ];
 
       $acertos = 0;
+      $respostas_usuario = $_POST;
 
-        function verifica($respostas_certas, $_POST)
+        function verifica($respostas_certas, $respostas_usuario)
         {
             
             $acertos = 0;
             
-            if($_POST['q1'] == $respostas_certas['q1'])
+            if($respostas_usuario['q1'] == $respostas_certas['q1'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q2'] == $respostas_certas['q2'])
+            if($respostas_usuario['q2'] == $respostas_certas['q2'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q3'] == $respostas_certas['q3'])
+            if($respostas_usuario['q3'] == $respostas_certas['q3'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q4'] == $respostas_certas['q4'])
+            if($respostas_usuario['q4'] == $respostas_certas['q4'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q5'] == $respostas_certas['q5'])
+            if($respostas_usuario['q5'] == $respostas_certas['q5'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q6'] == $respostas_certas['q6'])
+            if($respostas_usuario['q6'] == $respostas_certas['q6'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q7'] == $respostas_certas['q7'])
+            if($respostas_usuario['q7'] == $respostas_certas['q7'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q8'] == $respostas_certas['q8'])
+            if($respostas_usuario['q8'] == $respostas_certas['q8'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q9'] == $respostas_certas['q9'])
+            if($respostas_usuario['q9'] == $respostas_certas['q9'])
             {
                 $acertos = $acertos + 1;
             }
             
-            if($_POST['q10'] == $respostas_certas['q10'])
+            if($respostas_usuario['q10'] == $respostas_certas['q10'])
             {
                 $acertos = $acertos + 1;
             }
             
             return $acertos;
         }
-        
-        $acertos = verifica($respostas_certas, $_POST);
-        
-        setcookie("ultimo_resultado", $acertos, time() + 100000, "/");
-        
-        if (isset($_COOKIE["ultimo_resultado"])) 
-        {
-            $resultado_anterior = $_COOKIE["ultimo_resultado"];
-        } 
-        else 
-        {
-            echo "Ainda não tem resultado anterior?";
-            $resultado_anterior = null;
+
+        if(isset($_POST['submit'])){
+            echo "Formulário não enviado!";
+            
         }
+        else
+        {
+            $respostas_usuario = $_POST;
+
+            $acertos = verifica($respostas_certas, $respostas_usuario);
+
+            setcookie("ultimo_resultado", $acertos, time() + 100000, "/");
+        
+            if (isset($_COOKIE["ultimo_resultado"])) 
+            {
+                $resultado_anterior = $_COOKIE["ultimo_resultado"];
+            } 
+            else 
+            {
+                echo "Ainda não tem resultado anterior?";
+                $resultado_anterior = null;
+            }
+        }
+        
+        
 
 ?>
 
