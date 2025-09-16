@@ -1,12 +1,16 @@
 <?php
+//esse trecho é feito antes do html para poder armazenar os cookies
+
 $respostas_certas = [
         'q1' => 'b', 'q2' => 'a', 'q3' => 'b', 'q4' => 'b', 'q5' => 'b',
         'q6' => 'c', 'q7' => 'a', 'q8' => 'b', 'q9' => 'b', 'q10' => 'b'
       ];
 
       $acertos = 0;
-      $respostas_usuario = $_POST;
+      $respostas_usuario = $_POST; // recebe as respostas do usuário
 
+        /* função para verificar se resposta é certa ou errada
+            recebe como parâmetro as respostas certas e as respostas do usuário */
         function verifica($respostas_certas, $respostas_usuario)
         {
             
@@ -65,6 +69,8 @@ $respostas_certas = [
             return $acertos;
         }
 
+        /* verifica se o botão foi pressionado para enviar as respostas
+            se sim, armazena resultado no cookie */
         if(isset($_POST['submit'])){
             echo "Formulário não enviado!";
             
@@ -103,6 +109,8 @@ $respostas_certas = [
 <body>
     
     <?php
+
+    //verifica o nível de conhecimento do usuário
     if($acertos == 10)
         {
             $grau = "Supremo";
@@ -130,11 +138,12 @@ $respostas_certas = [
     
     ?>
     
+    <!-- tentando usar bootstrap para formatar a resposta-->
     <div class="d-flex flex-column justify-content-center align-items-center vh-100">
-        <p>Sua quantidade de acertos foi: <strong><?php echo $acertos; ?></strong></p>
-        <p>Você é: <strong><?php echo $grau; ?></strong></p>
+        <div style="border: 1px solid red; border-radius: 5%; padding: 20px;">
+        <p>Sua quantidade de acertos foi: <?php echo $acertos; ?> </p>
+        <p>Você é: <?php echo $grau; ?> </p>
         <p>Seu resultado anterior foi: 
-            <strong>
                 <?php 
                 if (isset($_COOKIE["ultimo_resultado"])) {
                     echo $_COOKIE["ultimo_resultado"];
@@ -142,9 +151,10 @@ $respostas_certas = [
                     echo "Ainda não tem resultado anterior.";
                 }
                 ?>
-            </strong>
         </p>
-        <p>Enviado em: <strong><?php echo date('d/m/Y H:i:s'); ?></strong></p>
+        <p>Enviado em: <?php echo date('d/m/Y H:i:s'); ?> </p>
+        </div>
+        
     </div>
 </body>
 </html>
