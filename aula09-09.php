@@ -10,7 +10,7 @@
     <?php
     $host = "localhost";
     $username = "aluno";
-    $password = "aluno.etec";
+    $password = "*****";
     $database = "teste";
     
     
