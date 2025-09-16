@@ -1,37 +1,16 @@
 <?php
-$cookie_name = "user";
-$cookie_value = $acertos;
-setcookie("ultimo_resultado", $cookie_value, time() +100000, "/");
-?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <?php
-
-    if(isset($_POST['submit'])){
-        echo "Formulário não enviado!";
-    }
-    else
-    {
-        echo "Formulário enviado!";
-    }
-
-    $respostas_certas = [
+$respostas_certas = [
         'q1' => 'b', 'q2' => 'a', 'q3' => 'b', 'q4' => 'b', 'q5' => 'b',
         'q6' => 'c', 'q7' => 'a', 'q8' => 'b', 'q9' => 'b', 'q10' => 'b'
       ];
 
       $acertos = 0;
 
-        function verifica()
+        function verifica($respostas_certas, $_POST)
         {
+            
+            $acertos = 0;
+            
             if($_POST['q1'] == $respostas_certas['q1'])
             {
                 $acertos = $acertos + 1;
@@ -81,45 +60,79 @@ setcookie("ultimo_resultado", $cookie_value, time() +100000, "/");
             {
                 $acertos = $acertos + 1;
             }
+            
+            return $acertos;
         }
         
-        echo "<br> acertos: " . $acertos;
+        $acertos = verifica($respostas_certas, $_POST);
         
-        if($acertos == 10)
+        setcookie("ultimo_resultado", $acertos, time() + 100000, "/");
+        
+        if (isset($_COOKIE["ultimo_resultado"])) 
         {
-            echo "Supremo";
+            $resultado_anterior = $_COOKIE["ultimo_resultado"];
+        } 
+        else 
+        {
+            echo "Ainda não tem resultado anterior?";
+            $resultado_anterior = null;
+        }
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    
+    <?php
+    if($acertos == 10)
+        {
+            $grau = "Supremo";
         }
         elseif($acertos >= 8 && $acertos <= 9)
         {
-            echo "Especialista";
+            $grau = "Especialista";
         }
         elseif($acertos >= 6 && $acertos <= 7)
         {
-            echo "Entendedor"
+            $grau = "Entendedor";
         }
         elseif($acertos >= 4 && $acertos <= 5)
         {
-            echo "Até que gosta";
+            $grau = "Até que gosta";
         }
         elseif($acertos >= 2 && $acertos <= 3)
         {
-            echo "Estude mais";
+            $grau = "Estude mais";
         }
         else
         {
-            echo "Não conhece";
+            $grau = "Não conhece";
         }
-        
-        echo "Enviado em: " . date(Y/m/d) . " às " . time(h:m:s);
-        
-      if(!isset($_COOKIE["ultimo_resultado"])) 
-      {
-        echo "Ainda não tem último resultado";
-      } 
-      else 
-      {
-          echo "Seu último resultado foi: " . $cookie_value;
-      }
+    
     ?>
+    
+    <div class="d-flex flex-column justify-content-center align-items-center vh-100">
+        <p>Sua quantidade de acertos foi: <strong><?php echo $acertos; ?></strong></p>
+        <p>Você é: <strong><?php echo $grau; ?></strong></p>
+        <p>Seu resultado anterior foi: 
+            <strong>
+                <?php 
+                if (isset($_COOKIE["ultimo_resultado"])) {
+                    echo $_COOKIE["ultimo_resultado"];
+                } else {
+                    echo "Ainda não tem resultado anterior.";
+                }
+                ?>
+            </strong>
+        </p>
+        <p>Enviado em: <strong><?php echo date('d/m/Y H:i:s'); ?></strong></p>
+    </div>
 </body>
 </html>
