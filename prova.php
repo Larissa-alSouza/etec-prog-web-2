@@ -1,3 +1,9 @@
+<?php
+$cookie_name = "user";
+$cookie_value = $acertos;
+setcookie("ultimo_resultado", $cookie_value, time() +100000, "/");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -104,7 +110,16 @@
             echo "Não conhece";
         }
         
-      
+        echo "Enviado em: " . date(Y/m/d) . " às " . time(h:m:s);
+        
+      if(!isset($_COOKIE["ultimo_resultado"])) 
+      {
+        echo "Ainda não tem último resultado";
+      } 
+      else 
+      {
+          echo "Seu último resultado foi: " . $cookie_value;
+      }
     ?>
 </body>
 </html>
