@@ -73,14 +73,13 @@ $respostas_certas = [
             se sim, armazena resultado no cookie */
         if(isset($_POST['submit'])){
             echo "Formulário não enviado!";
-            
         }
         else
         {
-            $respostas_usuario = $_POST;
-
+            //chama a função verifica e atribui o valor do resultado para a variável acertos 
             $acertos = verifica($respostas_certas, $respostas_usuario);
 
+            //armazena no cookie
             setcookie("ultimo_resultado", $acertos, time() + 100000, "/");
         
             if (isset($_COOKIE["ultimo_resultado"])) 
@@ -138,7 +137,7 @@ $respostas_certas = [
     
     ?>
     
-    <!-- tentando usar bootstrap para formatar a resposta-->
+    <!-- usando bootstrap para formatar a resposta-->
     <div class="d-flex flex-column justify-content-center align-items-center vh-100">
         <div style="border: 1px solid red; border-radius: 5%; padding: 20px;">
         <p>Sua quantidade de acertos foi: <?php echo $acertos; ?> </p>
@@ -152,7 +151,13 @@ $respostas_certas = [
                 }
                 ?>
         </p>
-        <p>Enviado em: <?php echo date('d/m/Y H:i:s'); ?> </p>
+        <p>Enviado em: 
+            <?php  
+                //data e hora especifica do estado de são paulo
+                date_default_timezone_set('America/Sao_Paulo');
+                $data_saopaulo = date('d/m/Y H:i:s');
+                echo $data_saopaulo; 
+            ?> </p>
         </div>
         
     </div>
