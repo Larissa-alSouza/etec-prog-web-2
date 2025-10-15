@@ -1,5 +1,5 @@
 <?php
-/* Larissa Alves de Souza*/
+/* Larissa Alves de Souza */
 
 // Conectar ao banco de dados
 $servername = "localhost"; // Endereço do servidor
