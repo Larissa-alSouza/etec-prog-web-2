@@ -68,48 +68,52 @@ switch ($method) {
         }
         break;
 
-    case 'POST':
-        // Criar um novo curso
-        $dados = json_decode(file_get_contents('php://input'), true); // Ler os dados JSON enviados
-
-        // Verificar se os dados foram passados corretamente
-        if (isset($dados['curso']) && isset($dados['vagas']) && isset($dados['periodo'])) {
-
-            if(empty($dados['curso']) || !preg_match("/^[a-zA-ZÀ-ÿ\s]+$/u", $dados['curso']))
-            {
-                echo json_encode(["mensagem" => "Curso não pode estar vazio e deve conter apenas letras e espaços."]);
-            }
-            elseif(!filter_var($dados['vagas'], FILTER_VALIDATE_INT) && $dados['vagas'] < 0)
-            {
-                echo json_encode(["mensagem" => "Vagas deve ser um número interiro e positivo."]);
-            }
-            elseif (!in_array($dados['periodo'], ['Manhã', 'Tarde', 'Noite'])) 
-            {
-                echo json_encode(["mensagem" => "Período inválido! Deve ser Manhã, Tarde ou Noite."]);
-            }
-            else 
-            {
-                // Todos os dados estão válidos, pode continuar
-                echo json_encode(["mensagem" => "Dados válidos!"]);
-            }
-            } else 
-            {
+        case 'POST':
+            // Criar um novo curso
+            $dados = json_decode(file_get_contents('php://input'), true); // Ler os dados JSON enviados
+        
+            // Verificar se os dados foram passados corretamente
+            if (isset($dados['curso']) && isset($dados['vagas']) && isset($dados['periodo'])) {
+        
+                $curso = trim($dados['curso']);
+                $vagas = $dados['vagas'];
+                $periodo = $dados['periodo'];
+        
+                // Iniciar array para armazenar erros
+                $erros = [];
+        
+                // Validação do curso
+                if (empty($curso) || !preg_match("/^[a-zA-ZÀ-ÿ\s]+$/u", $curso)) {
+                    $erros[] = "Curso não pode estar vazio e deve conter apenas letras e espaços.";
+                }
+        
+                // Validação das vagas
+                if (!filter_var($vagas, FILTER_VALIDATE_INT) || $vagas <= 0) {
+                    $erros[] = "Vagas deve ser um número inteiro positivo.";
+                }
+        
+                // Validação do período
+                $periodos_validos = ['Manhã', 'Tarde', 'Noite'];
+                if (!in_array($periodo, $periodos_validos)) {
+                    $erros[] = "Período inválido! Deve ser Manhã, Tarde ou Noite.";
+                }
+        
+                // Se houver erros, exibir e parar
+                if (!empty($erros)) {
+                    echo json_encode(["erros" => $erros]);
+                } else {
+                    // Todos os dados estão válidos, pode inserir no banco
+                    $sql = "INSERT INTO cursos (curso, vagas, periodo) VALUES ('$curso', $vagas, '$periodo')";
+                    if (mysqli_query($conn, $sql)) {
+                        echo json_encode(["mensagem" => "Curso criado com sucesso!"]);
+                    } else {
+                        echo json_encode(["mensagem" => "Erro ao criar o curso: " . mysqli_error($conn)]);
+                    }
+                }
+            } else {
                 echo json_encode(["mensagem" => "Dados incompletos."]);
             }
-
-            $curso = $dados['curso'];
-            $vagas = $dados['vagas'];
-            $periodo = $dados['periodo'];
-
-            // Inserir o novo curso no banco
-            $sql = "INSERT INTO cursos (curso, vagas, periodo) VALUES ('$curso', $vagas, '$periodo')";
-            if (mysqli_query($conn, $sql)) {
-                echo json_encode(["mensagem" => "Curso criado com sucesso!"]);
-            } else {
-                echo json_encode(["mensagem" => "Erro ao criar o curso: " . mysqli_error($conn)]);
-            }
-       
-        break;
+            break;
 
     case 'PUT':
         // Atualizar um curso existente
